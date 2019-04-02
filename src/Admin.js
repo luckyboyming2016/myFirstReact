@@ -12,16 +12,16 @@ class Admin extends Component {
       <div>
         <Row>
           <Col span="3">
-            <NavLeft></NavLeft>
+            <NavLeft />
           </Col>
           <Col span="4">
-            <Header></Header>
+            <Header />
             <Row>
               <Col>
               中间内容12
               </Col>
             </Row>
-            <Footer></Footer>
+            <Footer />
           </Col>
         </Row>
       </div>
