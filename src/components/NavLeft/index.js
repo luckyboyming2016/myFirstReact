@@ -32,7 +32,7 @@ class NavLeft extends Component {
     return ( 
       <div className="menu-wrap">
         <div className="logo">
-          <img alt="logo" src="/assets/logo.png" />
+          <img alt="logo" className="response_img" src="/assets/logo.png" />
         </div>
         <Menu theme='dark'>
           { this.state.menuName }

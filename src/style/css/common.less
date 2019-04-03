@@ -4,6 +4,11 @@ body {
     color: #49505A;
     background-color: #F6F6F6;
 }
+ul,
+ol,
+li {
+  list-style: none
+}
 .clearfix:after {
   content: '.';
   height: 0;
@@ -33,6 +38,36 @@ body {
 img{
   display: inline-block;
 }
+
+.response_img {
+  width: 100%;
+  height: 100%;
+}
+
+.transparent {
+  background-color: rgba(0, 0, 0, .5);
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+}
+
+.box-sizing {
+  -moz-box-sizing: border-box;
+  /* Firefox */
+
+  -webkit-box-sizing: border-box;
+  /* Safari */
+
+  box-sizing: border-box;
+}
+.text-elip {
+  word-wrap: normal;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 /**主页面内容区**/
 .container {
   .nav-left{

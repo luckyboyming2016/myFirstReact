@@ -19,7 +19,7 @@ class Header extends Component {
   }
   getWeather(){
     //测试地址 ：http://api.map.baidu.com/telematics/v3/weather?location=beijing&output=json&ak=3p49MVra6urFRGOT9s8UBWr2
-    let city = '北京'
+    let city = '上海'
     Axios.JSONP({
       url: 'http://api.map.baidu.com/telematics/v3/weather?location=' + encodeURIComponent(city) + '&output=json&ak=3p49MVra6urFRGOT9s8UBWr2'
     }).then(res=>{
