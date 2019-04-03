@@ -2,16 +2,10 @@ import React, { Component } from 'react';
 import './App.css';
 
 class App extends Component {
-
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <p>
-            Edit  and save to reload.
-          </p>
-         
-        </header>
+        {this.props.children}
       </div>
     );
   }

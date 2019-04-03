@@ -23,7 +23,6 @@ export default class Home extends Component {
           {/* <Route exact={true} path="/" component={Main}></Route>
           <Route path="/topic" component={Topic}></Route>
           <Route path="/infor" component={Infor}></Route> */}
-
         </div>
       </HashRouter>
     )

@@ -3,7 +3,7 @@ export default class Topic extends Component {
   render(){
     return (
       <div>
-        我的文章页面
+        我是文章页面
       </div>
     )
   }

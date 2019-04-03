@@ -7,15 +7,19 @@ import "./index.less"
 class Header extends Component {
   componentWillMount(){
     this.setState({
-      username: '张三'
+      username: '张三',
+      timer: null
     })
     this.getWeather()
-    setInterval(() => {
+    this.timer = setInterval(() => {
       let getCurrentTime = Until.formate(new Date().getTime())
       this.setState({
         getCurrentTime
       })
     }, 1000);
+  }
+  componentWillUnmount(){
+    clearInterval(this.timer)
   }
   getWeather(){
     //测试地址 ：http://api.map.baidu.com/telematics/v3/weather?location=beijing&output=json&ak=3p49MVra6urFRGOT9s8UBWr2

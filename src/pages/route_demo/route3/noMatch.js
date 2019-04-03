@@ -1,9 +1,9 @@
 import React,{ Component } from 'react'
-export default class Infor extends Component {
+export default class noMatch extends Component {
   render(){
     return (
       <div>
-        我是资讯页面
+        我是404页面
       </div>
     )
   }

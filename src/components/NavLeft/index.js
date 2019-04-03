@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Menu, Icon } from 'antd'
+import { NavLink } from 'react-router-dom'
 import './index.less'
 import Menujson from '../../config/menuConfig'
 import SubMenu from '_antd@3.15.2@antd/lib/menu/SubMenu';
@@ -23,7 +24,8 @@ class NavLeft extends Component {
       }
       return (
         <Menu.Item key={item.key}>
-          <Icon type={item.icon} />{item.title}
+          {/* <Icon type={item.icon} />{item.title} */}
+          <NavLink to={item.key}><Icon type={item.icon} />{item.title}</NavLink>
         </Menu.Item>
       )
     })
@@ -34,7 +36,7 @@ class NavLeft extends Component {
         <div className="logo">
           <img alt="logo" className="response_img" src="/assets/logo.png" />
         </div>
-        <Menu theme='dark'>
+        <Menu theme='dark' style={{textAlign:'left'}}>
           { this.state.menuName }
         </Menu>
         {/* <Menu 
