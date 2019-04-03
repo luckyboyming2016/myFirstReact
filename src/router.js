@@ -13,6 +13,7 @@ class IRouter extends Component {
       <HashRouter>
         <App>
           <Route path="/login" component={ Login }></Route>
+          <Route exact={true} path="/" component={ Login }></Route>
           <Route path="/admin" render={()=>
             <Admin>
               <Switch>
@@ -22,7 +23,6 @@ class IRouter extends Component {
               </Switch>
             </Admin>  
           }></Route>
-
         </App>
       </HashRouter>
     );
