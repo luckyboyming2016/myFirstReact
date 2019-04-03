@@ -14,19 +14,36 @@
     border-top:1px solid #09396b;
     line-height: 40px;
     height: 40px;
-    .bread-title::before{
-      width: 0;
-      height: 0;
-      content: '';
-      position: absolute;
-      left:120px;
-      bottom:-5px;
-      border-left:8px solid transparent;
-      border-right:8px solid transparent;
-      border-top:8px solid #fff;
+    .bread-title{
+      font-size: 16px;
+      &::after {
+        width: 0;
+        height: 0;
+        content: '';
+        position: absolute;
+        left: 120px;
+        bottom: -6px;
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        border-top: 8px solid #fff;
+      }
     }
-    span{
-      padding-left: 15px;
+    .weather{
+      .weather-img{
+        img{
+          height: 15px;
+          padding-left: 15px;
+          vertical-align: middle
+        }
+      }
+      .weather-day{
+         padding-left: 15px;
+         vertical-align: middle;
+      }
+      .weather-msg{
+         padding-left: 5px;
+         vertical-align: middle;
+      }
     }
   }
 }
