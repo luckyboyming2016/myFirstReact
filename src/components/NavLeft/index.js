@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom'
 import './index.less'
 import Menujson from '../../config/menuConfig'
 import SubMenu from '_antd@3.15.2@antd/lib/menu/SubMenu';
-
+// const SubMenu = Menu.SubMenu;
 class NavLeft extends Component {
   componentWillMount(){
     let menuName = this.rendMenu(Menujson)
@@ -17,7 +17,7 @@ class NavLeft extends Component {
     return data.map((item)=>{
       if(item.children){
         return (
-          <SubMenu key={item.key} title={<span><Icon type={item.icon} />{item.title}</span>}>
+          <SubMenu key={item.key} title={<span><Icon type={item.icon} /><span>{item.title}</span></span>}>
             { this.rendMenu(item.children) }
           </SubMenu>
         )
@@ -25,7 +25,7 @@ class NavLeft extends Component {
       return (
         <Menu.Item key={item.key}>
           {/* <Icon type={item.icon} />{item.title} */}
-          <NavLink to={item.key}><Icon type={item.icon} />{item.title}</NavLink>
+          <NavLink to={item.key}><Icon type={item.icon} /><span>{item.title}</span></NavLink>
         </Menu.Item>
       )
     })
@@ -36,7 +36,7 @@ class NavLeft extends Component {
         <div className="logo">
           <img alt="logo" className="response_img" src="/assets/logo.png" />
         </div>
-        <Menu theme='dark' style={{textAlign:'left'}}>
+        <Menu theme='dark'  defaultSelectedKeys={['/admin/home']} style={{textAlign:'left'}}>
           { this.state.menuName }
         </Menu>
         {/* <Menu 

@@ -9,10 +9,9 @@ import NavLeft from './components/NavLeft';
 const { Sider } = Layout
 
 class Admin extends Component {
-
   state = {
     top: 0,
-    collapsed: false //初始状态
+    collapsed: false //初始状态为打开
   }
   onCollapse = (collapsed) => {
     console.log(collapsed);
@@ -27,8 +26,8 @@ class Admin extends Component {
   }
   render(){
     return (
-      <Layout className="adminWrap">
-        <Sider className="adminNavleft" style={{overflow: 'auto', height: '100vh', position: 'relative', left: 0}}
+      <Layout style={{ minHeight: '100vh' }}>
+        <Sider
           collapsible
           collapsed={this.state.collapsed}
           onCollapse={this.onCollapse}
@@ -37,7 +36,7 @@ class Admin extends Component {
         </Sider>
         <Layout>
           <Affix offsetTop={this.state.top}>
-            <Header/>
+            <Header />
           </Affix>
           <div className="main bgfff">
             {/* <Home /> */}

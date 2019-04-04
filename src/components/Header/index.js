@@ -39,7 +39,7 @@ class Header extends Component {
   }
   render(){
     return (
-      <div className="headTop bgfff pr">
+      <div className="headTop bgfff">
         <Row className="header-top text-right">
           <Col span={24}>欢迎 {this.state.username}<a href="##">退出</a></Col>
         </Row>

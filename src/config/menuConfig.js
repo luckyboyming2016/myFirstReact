@@ -131,6 +131,6 @@ const menuList = [
         title: '权限设置',
         key: '/admin/permission',
         icon: 'tool'
-    },
+    }
 ];
 export default menuList;
