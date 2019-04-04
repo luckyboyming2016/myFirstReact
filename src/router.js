@@ -12,6 +12,7 @@ import Message from './pages/ui/messages'
 import Tabs from './pages/ui/tabs'
 import Gallery from './pages/ui/gallery'
 import Carousel from './pages/ui/carousel'
+import FormLogin from './pages/form/login'
 
 import Notpage from './pages/nofound'
 
@@ -34,6 +35,7 @@ class IRouter extends Component {
                 <Route path="/admin/ui/tabs" component={ Tabs }></Route>
                 <Route path="/admin/ui/gallery" component={ Gallery }></Route>
                 <Route path="/admin/ui/carousel" component={ Carousel }></Route>
+                <Route path="/admin/form/login" component={ FormLogin }></Route>
                 
                 <Route component={ Notpage }></Route>
               </Switch>
