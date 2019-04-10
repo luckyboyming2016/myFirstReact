@@ -45,17 +45,13 @@ class City extends Component {
       showOpenLayer: false
     })
   }
-  handleSubmit=()=>{
-    let val = this.props.form.getFieldsValue()
-    this.props.form.validateFields((err, values) => {
-      console.log(values)
-      if (!err) {
-        message.info(`${val.country}`)
-      }
-    })
+  //顶部搜索
+  handleSearchSubmit = () => {
+    let val = this.searchTopForm.props.form.getFieldsValue()
+    console.log(val)
+    message.info(`搜索结果为${val}`)
   }
   render(){
-    const { getFieldDecorator } = this.props.form
     const columns = [
       { title: '城市Id', key: 'key', dataIndex: 'key'},
       { title: '城市名称', key: 'name', dataIndex: 'name'},
@@ -76,7 +72,9 @@ class City extends Component {
     return (
       <div>
         <Card className="cardWarp">
-          <Form layout="inline" onSubmit={this.handleSubmit}>
+          <SearchForm wrappedComponentRef={(value) => { this.searchTopForm = value }} />
+          <Button onClick={this.handleSearchSubmit}>点击</Button>
+          {/* <Form layout="inline" onSubmit={this.handleSearchSubmit}>
             <FormItem label="城市">
               {
                 getFieldDecorator('country', {
@@ -130,7 +128,7 @@ class City extends Component {
               <Button type="primary" htmlType="submit">确定</Button>
               <Button style={{marginLeft:15}} type="default">重置</Button>
             </FormItem>
-          </Form>
+          </Form> */}
         </Card>
         <Card>
           <Button type="primary" onClick={this.openCountry}>开通城市</Button>
@@ -161,9 +159,72 @@ class City extends Component {
 
 export default Form.create()(City)
 
+class SearchForm extends Component {
+  render(){
+    const { getFieldDecorator } = this.props.form
+    return (
+      <Form layout="inline">
+            <FormItem label="城市">
+              {
+                getFieldDecorator('country', {
+                  initialValue: 'sh'
+                })(
+                  <Select style={{ width: 100 }}>
+                    <Option value="sh">上海</Option>
+                    <Option value="bj">北京</Option>
+                    <Option value="gz">广州</Option>
+                  </Select>
+                )
+              }
+            </FormItem>
+            <FormItem label="用车模式">
+              {
+                getFieldDecorator('userCar', {
+                  initialValue: '1'
+                })(
+                  <Select style={{ width: 120 }} placeholder="全部">
+                    <Option value="1">停车点</Option>
+                    <Option value="2">禁停区</Option>
+                  </Select>
+                )
+              }
+            </FormItem>
+            <FormItem label="营运模式">
+              {
+                getFieldDecorator('mode', {
+                  initialValue: '1'
+                })(
+                  <Select style={{ width: 120 }} placeholder="全部">
+                    <Option value="1">自营</Option>
+                    <Option value="2">加盟</Option>
+                  </Select>
+                )
+              }
+            </FormItem>
+            <FormItem label="加盟商授权状态">
+              {
+                getFieldDecorator('state', {
+                  initialValue: '1'
+                })(
+                  <Select style={{ width: 220 }} placeholder="全部">
+                    <Option value="1">创创运营</Option>
+                    <Option value="2">阿里运营</Option>
+                  </Select>
+                )
+              }
+            </FormItem>
+            <FormItem>
+              <Button type="primary" onClick={this.handleSearchSubmit}>确定</Button>
+              <Button style={{marginLeft:15}} type="default">重置</Button>
+            </FormItem>
+          </Form>
+    );
+  }
+}
+
+SearchForm = Form.create({})(SearchForm)
 
 class OpenCityForm extends Component {
-  
   render(){
     const formItemLayout = {
       labelCol: {
