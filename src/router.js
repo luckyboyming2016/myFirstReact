@@ -14,6 +14,10 @@ import Gallery from './pages/ui/gallery'
 import Carousel from './pages/ui/carousel'
 import FormLogin from './pages/form/login'
 import FormReg from './pages/form/reg'
+import tableBasic from './pages/table/basic'
+import tableHight from './pages/table/high'
+import City from './pages/city'
+
 
 import Notpage from './pages/nofound'
 
@@ -38,6 +42,10 @@ class IRouter extends Component {
                 <Route path="/admin/ui/carousel" component={ Carousel }></Route>
                 <Route path="/admin/form/login" component={ FormLogin }></Route>
                 <Route path="/admin/form/reg" component={ FormReg }></Route>
+                <Route path="/admin/table/basic" component={ tableBasic }></Route>
+                <Route path="/admin/table/high" component={ tableHight }></Route>
+                <Route path="/admin/city" component={ City }></Route>
+                
                 
                 <Route component={ Notpage }></Route>
               </Switch>

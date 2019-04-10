@@ -31,9 +31,18 @@ class FormReg extends Component {
   }
   handSubmit=()=>{
     let userInfo = this.props.form.getFieldsValue()
-    console.log(JSON.stringify(userInfo));
-    message.info(`恭喜你，通过了，账户${userInfo.userName},密码${userInfo.password}`)
+    console.log(userInfo);
+    this.props.form.validateFields((err,values)=>{
+      if(!err){
+        message.info(`恭喜你，通过了，账户${userInfo.userName},密码${userInfo.password}`)
+      }
+    })
     
+  }
+  onChangeTime=(time)=>{
+    this.setState({
+      time: moment(this.state.time).format('YYYY-MM-DD HH:mm:ss')
+    })
   }
   resetSubmit=()=>{
     this.props.form.resetFields()
@@ -80,7 +89,9 @@ class FormReg extends Component {
               {
                 getFieldDecorator('password', {
                   initialValue: '',
-                  rules: []
+                  rules: [
+                    { required: true, message: '密码不能为空'}
+                  ]
                 })(
                   <Input type="password" placeholder="请输入密码"></Input>
                 )
@@ -172,8 +183,10 @@ class FormReg extends Component {
             </FormItem>
             <FormItem label="早起时间" {...formItemLayout}>
               {
-                getFieldDecorator('time')(
-                  <TimePicker defaultOpenValue={moment('12:00:03', 'HH:mm:ss')} />
+                getFieldDecorator('time',{
+                  initialValue: moment('12:08:23', 'HH:mm:ss')
+                })(
+                  <TimePicker onChange={this.onChangeTime}/>
                 )
               }
             </FormItem>
@@ -186,13 +199,15 @@ class FormReg extends Component {
                   onChange={this.handleChange}>
                     {this.state.userImg?<img alt="" src={this.state.userImg} /> : <Icon type="plus" />}
                   </Upload>
-
                 )
               }
             </FormItem>
-             <FormItem {...offsetLayout} lable="">
+            <FormItem {...offsetLayout} lable="">
               {
-                getFieldDecorator('law')(
+                getFieldDecorator('law',{
+                  valuePropName: 'checked',
+                  initialValue: true
+                })(
                   <Checkbox>我已阅读协议</Checkbox>
                 )
               }
