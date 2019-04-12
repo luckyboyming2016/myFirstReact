@@ -17,7 +17,9 @@ import FormReg from './pages/form/reg'
 import tableBasic from './pages/table/basic'
 import tableHight from './pages/table/high'
 import City from './pages/city'
-
+import Order from './pages/order'
+import Common from './Common'
+import OrderDetail from './pages/order/detail'
 
 import Notpage from './pages/nofound'
 
@@ -29,28 +31,37 @@ class IRouter extends Component {
           <Route path="/login" component={ Login }></Route>
           <Route exact={true} path="/" component={ Login }></Route>
           <Route path="/admin" render={()=>
-            <Admin>
-              <Switch>
-                <Route path="/admin/home" component={ Home }></Route>
-                <Route path="/admin/ui/buttons" component={ Buttons }></Route>
-                <Route path="/admin/ui/modals" component={ Modals }></Route>
-                <Route path="/admin/ui/loadings" component={ Loading }></Route>
-                <Route path="/admin/ui/notification" component={ Notification }></Route>
-                <Route path="/admin/ui/messages" component={ Message }></Route>
-                <Route path="/admin/ui/tabs" component={ Tabs }></Route>
-                <Route path="/admin/ui/gallery" component={ Gallery }></Route>
-                <Route path="/admin/ui/carousel" component={ Carousel }></Route>
-                <Route path="/admin/form/login" component={ FormLogin }></Route>
-                <Route path="/admin/form/reg" component={ FormReg }></Route>
-                <Route path="/admin/table/basic" component={ tableBasic }></Route>
-                <Route path="/admin/table/high" component={ tableHight }></Route>
-                <Route path="/admin/city" component={ City }></Route>
-                
-                
-                <Route component={ Notpage }></Route>
-              </Switch>
-            </Admin>  
-          }></Route>
+              <Admin>
+                <Switch>
+                  <Route path="/admin/home" component={ Home }></Route>
+                  <Route path="/admin/ui/buttons" component={ Buttons }></Route>
+                  <Route path="/admin/ui/modals" component={ Modals }></Route>
+                  <Route path="/admin/ui/loadings" component={ Loading }></Route>
+                  <Route path="/admin/ui/notification" component={ Notification }></Route>
+                  <Route path="/admin/ui/messages" component={ Message }></Route>
+                  <Route path="/admin/ui/tabs" component={ Tabs }></Route>
+                  <Route path="/admin/ui/gallery" component={ Gallery }></Route>
+                  <Route path="/admin/ui/carousel" component={ Carousel }></Route>
+                  <Route path="/admin/form/login" component={ FormLogin }></Route>
+                  <Route path="/admin/form/reg" component={ FormReg }></Route>
+                  <Route path="/admin/table/basic" component={ tableBasic }></Route>
+                  <Route path="/admin/table/high" component={ tableHight }></Route>
+                  <Route path="/admin/city" component={ City }></Route>
+                  <Route path="/admin/order" component={ Order }></Route>
+                  
+                  <Route component={ Notpage }></Route>
+                </Switch>
+              </Admin>  
+            }>
+          </Route>
+          <Route path="/common" render={()=>
+              <Common>
+                <Switch>
+                  <Route path="/common/order/detail/:id" component={ OrderDetail }></Route>
+                </Switch>
+              </Common>
+            }>
+          </Route>
         </App>
       </HashRouter>
     );

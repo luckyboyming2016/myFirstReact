@@ -1,5 +1,6 @@
 import React,{ Component } from 'react'
 import { Row,Col } from 'antd'
+import { Link } from 'react-router-dom'
 import Until from '../../config/until.js'
 import Axios from '../../jsonp'
 import "./index.less"
@@ -27,6 +28,7 @@ class Header extends Component {
     Axios.JSONP({
       url: 'http://api.map.baidu.com/telematics/v3/weather?location=' + encodeURIComponent(city) + '&output=json&ak=3p49MVra6urFRGOT9s8UBWr2'
     }).then(res=>{
+      console.log(res);
       if(res.status === 'success'){
         let data = res.results[0].weather_data[0]
         this.setState({
@@ -38,19 +40,26 @@ class Header extends Component {
     })
   }
   render(){
+    const menuType = this.props.menuType
     return (
-      <div className="headTop bgfff">
-        <Row className="header-top text-right">
-          <Col span={24}>欢迎 {this.state.username}<a href="##">退出</a></Col>
+      <div className="headTop">
+        <Row className="header-top">
+          {
+            menuType ? <Col span={4}><img className="detail_logo" alt="Logo" src="/assets/logo.png" /></Col> : ''
+          }
+          <Col className="text-right" span={menuType ? 20 : 24}>欢迎 {this.state.username}<Link to='/login'>退出</Link></Col>
         </Row>
-        <Row className="breadcrumb">
-          <Col span={4} className="bread-title text-center">首页</Col>
-          <Col className="weather text-right" span={20}>{ this.state.getCurrentTime } 
-            <span className="weather-img"><img alt="" src={this.state.dayImg}/></span>
-            <span className="weather-day">{this.state.dayMsg}</span>
-            <span className="weather-msg">{this.state.dayWind}</span>
-          </Col>
-        </Row>
+        {
+          menuType ? '' :  
+          <Row className="breadcrumb">
+            <Col span={4} className="bread-title text-center">首页</Col>
+            <Col className="weather text-right" span={20}>{ this.state.getCurrentTime } 
+              <span className="weather-img"><img alt="" src={this.state.dayImg}/></span>
+              <span className="weather-day">{this.state.dayMsg}</span>
+              <span className="weather-msg">{this.state.dayWind}</span>
+            </Col>
+          </Row>
+        }
       </div>
     )
   }

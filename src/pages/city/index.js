@@ -45,12 +45,7 @@ class City extends Component {
       showOpenLayer: false
     })
   }
-  //顶部搜索
-  handleSearchSubmit = () => {
-    let val = this.searchTopForm.props.form.getFieldsValue()
-    console.log(val)
-    message.info(`搜索结果为${val}`)
-  }
+  
   render(){
     const columns = [
       { title: '城市Id', key: 'key', dataIndex: 'key'},
@@ -72,8 +67,7 @@ class City extends Component {
     return (
       <div>
         <Card className="cardWarp">
-          <SearchForm wrappedComponentRef={(value) => { this.searchTopForm = value }} />
-          <Button onClick={this.handleSearchSubmit}>点击</Button>
+          <SearchForm />
           {/* <Form layout="inline" onSubmit={this.handleSearchSubmit}>
             <FormItem label="城市">
               {
@@ -160,16 +154,24 @@ class City extends Component {
 export default Form.create()(City)
 
 class SearchForm extends Component {
+  handleSearchSubmit = () => {
+    let val = this.props.form.getFieldsValue()
+    console.log(val)
+    message.info(`搜索结果为${val}`)
+  }
+  resetSearch = () => {
+    this.props.form.resetFields()
+    message.info(`重置成功`)
+  }
   render(){
     const { getFieldDecorator } = this.props.form
     return (
-      <Form layout="inline">
+      <Form layout="inline" onSubmit={this.handleSearchSubmit}>
             <FormItem label="城市">
               {
-                getFieldDecorator('country', {
-                  initialValue: 'sh'
-                })(
-                  <Select style={{ width: 100 }}>
+                getFieldDecorator('country')(
+                  <Select style={{ width: 100 }} placeholder="全部">
+                    <Option value="">全部</Option>
                     <Option value="sh">上海</Option>
                     <Option value="bj">北京</Option>
                     <Option value="gz">广州</Option>
@@ -191,10 +193,9 @@ class SearchForm extends Component {
             </FormItem>
             <FormItem label="营运模式">
               {
-                getFieldDecorator('mode', {
-                  initialValue: '1'
-                })(
+                getFieldDecorator('mode')(
                   <Select style={{ width: 120 }} placeholder="全部">
+                    <Option value="">全部</Option>
                     <Option value="1">自营</Option>
                     <Option value="2">加盟</Option>
                   </Select>
@@ -203,19 +204,18 @@ class SearchForm extends Component {
             </FormItem>
             <FormItem label="加盟商授权状态">
               {
-                getFieldDecorator('state', {
-                  initialValue: '1'
-                })(
-                  <Select style={{ width: 220 }} placeholder="全部">
-                    <Option value="1">创创运营</Option>
-                    <Option value="2">阿里运营</Option>
+                getFieldDecorator('state')(
+                  <Select style={{ width: 120 }} placeholder="全部">
+                    <Option value="">全部</Option>
+                    <Option value="1">已授权</Option>
+                    <Option value="2">未授权</Option>
                   </Select>
                 )
               }
             </FormItem>
             <FormItem>
-              <Button type="primary" onClick={this.handleSearchSubmit}>确定</Button>
-              <Button style={{marginLeft:15}} type="default">重置</Button>
+              <Button type="primary" htmlType="submit">确定</Button>
+              <Button style={{marginLeft:15}} type="default" onClick={this.resetSearch}>重置</Button>
             </FormItem>
           </Form>
     );

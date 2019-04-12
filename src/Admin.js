@@ -37,7 +37,9 @@ class Admin extends Component {
         </Sider>
         <Layout>
           <Affix offsetTop={this.state.top}>
-            <Header/>
+            <div className="bgfff">
+              <Header/>
+            </div>
           </Affix>
           <div className="main bgfff">
             {/* <Home /> */}
