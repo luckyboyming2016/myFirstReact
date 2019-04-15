@@ -1,11 +1,43 @@
 import React, {Component} from 'react'
 import axios from './../../jsonp'
-import moment from 'moment'
-import {Form, Card, Select,Button,message,Table, Modal, DatePicker } from 'antd'
+import BaseFormSearch from '../../components/BaseSearchForm'
+import { Form, Card, Select, Button, message, Table, Modal} from 'antd'
 const FormItem = Form.Item
 const Option = Select.Option
 class City extends Component {
   state = { }
+  formList = [
+    {
+      type: 'INPUT',
+      label: '用户名',
+      placeholder: '请输入用户名',
+      field: 'user_name'
+    },
+    {
+      type: 'SELECT',
+      label: '是否已婚',
+      initialValue : 1,
+      width:100,
+      placeholder: '请选择',
+      field: 'marry',
+      list: [
+        {key: 0, value: '已婚'}, 
+        {key: 1, value: '未婚'},
+        {key: 2, value: '未知'}
+      ]
+    },
+    {
+      type: 'DATAPICKER_GROUP',
+      label: '订单时间'
+    },
+    { 
+      type: 'DATAPICKER_SINGLE',
+      label: '入职时间',
+      placeholder: '请选择入职时间',
+      field: 'entryTime',
+      width: 100
+    }
+  ]
   params ={
     page: 1
   }
@@ -14,7 +46,7 @@ class City extends Component {
   }
   getPostData=()=>{
     axios.ajax({
-      url: '/order/table/list',
+      url: '/user/table/list',
       params: {
         page: this.params.page
       }
@@ -70,25 +102,47 @@ class City extends Component {
   getSearchFormData(val){
     console.log(val);
     message.info('父级搜索值为'+val)
-    console.log(val.start_time);
-    console.log(moment(val.start_time).valueOf());
   }
   componentWillUnmount(){
     clearTimeout(this.timer)
   }
+  memberDetail=(type)=>{
+    console.log(type);
+    
+  }
   render(){
     const columns = [
-      { title: '订单编号', key: 'order_sn', dataIndex: 'order_sn'},
-      { title: '车辆编号', key: 'bike_sn', dataIndex: 'bike_sn'},
+      { title: '排序', key: 'sort', dataIndex: 'sort'},
       { title: '用户名', key: 'user_name', dataIndex: 'user_name'},
-      { title: '手机号', key: 'mobile', dataIndex: 'mobile'},
-      { title: '里程', key: 'distance', dataIndex: 'distance'},
-      { title: '行驶时长', key: 'total_time', dataIndex: 'total_time'},
-      { title: '状态', key: 'status', dataIndex: 'status'},
-      { title: '开始时间', key: 'start_time', dataIndex: 'start_time'},
-      { title: '结束时间', key: 'end_time', dataIndex: 'end_time'},
-      { title: '订单金额', key: 'total_fee', dataIndex: 'total_fee'},
-      { title: '实付金额', key: 'user_pay', dataIndex: 'user_pay'},
+      { title: '性别', key: 'sex', dataIndex: 'sex', render:(sex)=>{
+        return sex === 1? '男': '女'
+      }},
+      { title: '状态', key: 'status', dataIndex: 'status', render:(status)=>{
+        return {
+          '1': '才子一枚',
+          '2': '风度翩翩',
+          '3': '神采飞扬',
+          '4': '神清气爽，神采奕奕',
+          '5': '气宇轩昂，满面红光',
+          '6': '扬眉吐气，心旷神怡'
+        }[status]
+      }},
+      { title: '爱好', key: 'interest', dataIndex: 'interest', render:(status)=>{
+        return {
+          '1': '唱歌，看书',
+          '2': '旅游',
+          '3': '看书，唱歌',
+          '4': '乒乓，网球',
+          '5': '画画，小说',
+          '6': '摄影，音乐 '
+        }[status]
+      }},
+      { title: '是否已婚', key: 'marry', dataIndex: 'marry', render:(marry)=>{
+        return marry === 1? '已婚': '未婚'
+      }},
+      { title: '生日', key: 'birthday', dataIndex: 'birthday'},
+      { title: '联系地址', key: 'address', dataIndex: 'address'},
+      { title: '早起时间', key: 'getUp', dataIndex: 'getUp'}
     ]
     const { selectedRowKeys } = this.state
     const rowSelection = {
@@ -107,11 +161,13 @@ class City extends Component {
     return (
       <div>
         <Card className="cardWarp">
-          <SearchForm getPostData={this.getSearchFormData}/>
+          <BaseFormSearch formList={this.formList} getPostData={this.getSearchFormData} />
         </Card>
         <Card className="btnUser">
-          <Button type="primary" onClick={this.orderDetail}>订单详情</Button>
-          <Button type="danger" onClick={this.overOrder}>结束订单</Button>
+          <Button type="primary" onClick={()=>this.memberDetail('create')}>创建员工</Button>
+          <Button type="primary" onClick={()=>this.memberDetail('edit')}>编辑员工</Button>
+          <Button type="primary" onClick={()=>this.memberDetail('detail')}>员工详情</Button>
+          <Button type="danger" onClick={()=>this.memberDetail('delete')}>删除员工</Button>
         </Card>
         <div style={{marginTop:-1}}>
           <Table
@@ -148,74 +204,7 @@ class City extends Component {
 
 export default Form.create()(City)
 
-class SearchForm extends Component {
-  //顶部搜索
-  handleSearchSubmit = () => {
-    let val = this.props.form.getFieldsValue()
-    this.props.getPostData(val)
-  }
-  resetSearch = () => {
-    this.props.form.resetFields()
-    message.info(`重置成功`)
-  }
-  render(){
-    const { getFieldDecorator } = this.props.form
-    return (
-      <Form layout="inline">
-            <FormItem label="城市">
-              {
-                getFieldDecorator('country')(
-                  <Select style={{ width: 100 }} placeholder="全部">
-                    <Option value="">全部</Option>
-                    <Option value="1">上海</Option>
-                    <Option value="2">北京</Option>
-                    <Option value="3">广州</Option>
-                  </Select>
-                )
-              }
-            </FormItem>
-            <FormItem label="订单时间">
-              {
-                getFieldDecorator('start_time',{
-                  initialValue: moment()
-                })(
-                  <DatePicker showTime format="YYYY-MM-DD HH:mm:ss" />
-                )
-              } 
-            </FormItem>
-            <FormItem label="~" colon={false}> 
-              {
-                getFieldDecorator('end_time',{
-                   initialValue: moment().add('days', 7) //7天后
-                  // initialValue: moment().subtract('days', 7) //7天前
-                })( 
-                  <DatePicker showTime format="YYYY-MM-DD HH:mm:ss" />
-                )
-              }
-            </FormItem>
-            <FormItem label="订单状态">
-              {
-                getFieldDecorator('status',{
-                  initialValue: '1'
-                })(
-                  <Select style={{ width: 120 }} placeholder="全部">
-                    <Option value="">全部</Option>
-                    <Option value="1">进行中</Option>
-                    <Option value="2">结束行程</Option>
-                  </Select>
-                )
-              }
-            </FormItem>
-            <FormItem>
-              <Button type="primary" onClick={this.handleSearchSubmit}>确定</Button>
-              <Button style={{marginLeft:15}} type="default" onClick={this.resetSearch}>重置</Button>
-            </FormItem>
-          </Form>
-    );
-  }
-}
 
-SearchForm = Form.create({})(SearchForm)
 
 class OpenCityForm extends Component {
   render(){
@@ -232,9 +221,7 @@ class OpenCityForm extends Component {
       <Form>
         <FormItem label="选择城市" {...formItemLayout}>
           {
-            getFieldDecorator('name',{
-              initialValue: ''
-            })(
+            getFieldDecorator('name')(
               <Select>
                 <Option value="sh">上海</Option>
                 <Option value="bj">北京</Option>

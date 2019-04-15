@@ -45,7 +45,11 @@ class City extends Component {
       showOpenLayer: false
     })
   }
-  
+  searchForm(data){
+    console.log(data);
+    
+    message.info(`父级搜索结果为 ${data}`)
+  }
   render(){
     const columns = [
       { title: '城市Id', key: 'key', dataIndex: 'key'},
@@ -67,7 +71,7 @@ class City extends Component {
     return (
       <div>
         <Card className="cardWarp">
-          <SearchForm />
+          <SearchForm getFormData={this.searchForm} />
           {/* <Form layout="inline" onSubmit={this.handleSearchSubmit}>
             <FormItem label="城市">
               {
@@ -154,10 +158,10 @@ class City extends Component {
 export default Form.create()(City)
 
 class SearchForm extends Component {
-  handleSearchSubmit = () => {
+  handleSearchSubmit = (e) => {
+    e.preventDefault();
     let val = this.props.form.getFieldsValue()
-    console.log(val)
-    message.info(`搜索结果为${val}`)
+    this.props.getFormData(val)
   }
   resetSearch = () => {
     this.props.form.resetFields()
