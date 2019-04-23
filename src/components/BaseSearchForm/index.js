@@ -19,16 +19,16 @@ class SearchForm extends Component {
         if(type === 'INPUT'){
           const INPUT = <FormItem label={label} key={field}>
             {
-              getFieldDecorator([field])(
-                 <Input type="text" placeholder={placeholder} />
+              getFieldDecorator(field)(
+                 <Input style={{ width: width }} type="text" placeholder={placeholder} />
               )
             }
           </FormItem>
           formItemList.push(INPUT)
         }else if(type==="SELECT"){
-          const SELECT = <FormItem label={label} key="field">
+          const SELECT = <FormItem label={label} key={field}>
             {
-              getFieldDecorator([field],{
+              getFieldDecorator(field,{
                 initialValue: initialValue
               })(
                 <Select style={{ width: width }} placeholder={placeholder}>
@@ -62,7 +62,7 @@ class SearchForm extends Component {
         }else if(type === "DATAPICKER_SINGLE"){
           const single = <FormItem label={label} key={field}>
             {
-              getFieldDecorator([field])(
+              getFieldDecorator(field)(
                  <DatePicker showTime={true} format="YYYY-MM-DD HH:mm:ss" placeholder={placeholder} />
               )
             }

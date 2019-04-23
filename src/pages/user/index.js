@@ -1,11 +1,18 @@
 import React, {Component} from 'react'
 import axios from './../../jsonp'
 import BaseFormSearch from '../../components/BaseSearchForm'
-import { Form, Card, Select, Button, message, Table, Modal} from 'antd'
+import { Form, Card, Select, Button, message, Table, Modal, Input,Radio} from 'antd'
+import { DatePicker } from 'antd';
+import Moment from 'moment'
+const RadioGroup = Radio.Group
 const FormItem = Form.Item
+const TextArea = Input.TextArea
 const Option = Select.Option
 class City extends Component {
-  state = { }
+  state = {
+    type: '',
+    showOpenLayer: false
+  }
   formList = [
     {
       type: 'INPUT',
@@ -107,8 +114,50 @@ class City extends Component {
     clearTimeout(this.timer)
   }
   memberDetail=(type)=>{
-    console.log(type);
-    
+    let id = this.state.selectedRowKeys
+    let item = this.state.selectItem
+ 
+    console.log(id,item)
+    if(type === 'create'){
+      this.setState({
+        type: type,
+        title:'创建员工',
+        showOpenLayer: true
+      })
+    }else if(type === "edit"){
+      if(!id){
+        Modal.info({
+          title: '提示',
+          content: '请选择一条记录'
+        })
+        return 
+      }
+      this.setState({
+        type: type,
+        title: '编辑员工',
+        showOpenLayer: true,
+        userInfor: item
+      })
+    }
+    console.log('type ',this.state.type)
+  }
+  submitDialog=(data)=>{
+    let type = this.state.type
+    let value = this.cityForm.props.form.getFieldsValue()
+    axios.ajax({
+      url: '/user/table/list',
+      params: {
+        data: value
+      }
+    }).then((res)=>{
+      if(res.code === 0){
+        this.cityForm.props.form.resetFields()
+        this.setState({
+          showOpenLayer: false
+        })
+        this.getPostData()
+      }
+    })
   }
   render(){
     const columns = [
@@ -127,7 +176,7 @@ class City extends Component {
           '6': '扬眉吐气，心旷神怡'
         }[status]
       }},
-      { title: '爱好', key: 'interest', dataIndex: 'interest', render:(status)=>{
+      { title: '爱好', key: 'interest', dataIndex: 'interest', render:(interest)=>{
         return {
           '1': '唱歌，看书',
           '2': '旅游',
@@ -135,7 +184,7 @@ class City extends Component {
           '4': '乒乓，网球',
           '5': '画画，小说',
           '6': '摄影，音乐 '
-        }[status]
+        }[interest]
       }},
       { title: '是否已婚', key: 'marry', dataIndex: 'marry', render:(marry)=>{
         return marry === 1? '已婚': '未婚'
@@ -186,16 +235,19 @@ class City extends Component {
           ></Table>
         </div>
           <Modal
-            title="开通城市"
-            onOk={this.sumbitOpenCoutry}
+            title={this.state.title}
+            onOk={this.submitDialog}
             okText="确定"
             cancelText="取消"
-            onCancel={()=>{this.setState({
-              showOpenLayer: false
-            })}}
+            onCancel={()=>{
+              this.cityForm.props.form.resetFields()
+              this.setState({
+                showOpenLayer: false
+              })
+            }}
             visible={this.state.showOpenLayer}
           >
-            <OpenCityForm wrappedComponentRef={(value)=>{this.cityForm = value} } />
+            <OpenCityForm type={this.state.type} userInfor={this.state.userInfor} wrappedComponentRef={(value)=>{this.cityForm = value} } />
           </Modal>
       </div>
     );
@@ -216,41 +268,62 @@ class OpenCityForm extends Component {
         span: 10
       }
     }
+    let type = this.props.type
+    let userInfor = this.props.userInfor || {}
     const { getFieldDecorator } = this.props.form
     return (
       <Form>
-        <FormItem label="选择城市" {...formItemLayout}>
+        <FormItem label="用户名" {...formItemLayout}>
           {
-            getFieldDecorator('name')(
+            getFieldDecorator('user_name',{
+              initialValue: userInfor.user_name
+            })(
+              <Input type="text" placeholder="请输入用户名" />
+            )
+          }
+        </FormItem>
+        <FormItem label="性别" {...formItemLayout}>
+          {
+            getFieldDecorator('sex', {
+                initialValue: userInfor.sex
+              })(
+              <RadioGroup>
+                <Radio value={1}>男</Radio>
+                <Radio value={2}>女</Radio>
+              </RadioGroup>
+            )
+          }
+        </FormItem>
+        <FormItem label="状态" {...formItemLayout}>
+          {
+            getFieldDecorator('state', {
+              initialValue: userInfor.state
+            })(
               <Select>
-                <Option value="sh">上海</Option>
-                <Option value="bj">北京</Option>
-                <Option value="gz">广州</Option>
+                <Option value={1}>咸鱼一条</Option>
+                <Option value={2}>风华浪子</Option>
+                <Option value={3}>北大才子一枚</Option>
+                <Option value={4}>百度FE</Option>
+                <Option value={5}>创业者</Option>
               </Select>
             )
           }
         </FormItem>
-        <FormItem label="营运模式" {...formItemLayout}>
+        <FormItem label="生日" {...formItemLayout}>
           {
-            getFieldDecorator('op_mode',{
-              initialValue: ''
-            })(
-              <Select>
-                <Option value="1">自营</Option>
-                <Option value="2">加盟</Option>
-              </Select>
+            getFieldDecorator('birthday', {
+                initialValue: Moment(userInfor.birthday)
+              })(
+              <DatePicker showTime />
             )
           }
         </FormItem>
-        <FormItem label="用车模式" {...formItemLayout}>
+        <FormItem label="联系地址" {...formItemLayout}>
           {
-            getFieldDecorator('mode', {
-              initialValue: ''
-            })(
-              <Select>
-                <Option value="1">停车点</Option>
-                <Option value="2">禁停区</Option>
-              </Select>
+            getFieldDecorator('address', {
+                initialValue: userInfor.address
+              })(
+              <TextArea rows={3} placeholder="请输入联系地址" />
             )
           }
         </FormItem>
