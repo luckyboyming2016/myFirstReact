@@ -21,6 +21,7 @@ import Order from './pages/order'
 import Common from './Common'
 import OrderDetail from './pages/order/detail'
 import User from './pages/user'
+import bikeMap from './pages/bikeMap'
 
 import Notpage from './pages/nofound'
 
@@ -50,6 +51,7 @@ class IRouter extends Component {
                   <Route path="/admin/city" component={ City }></Route>
                   <Route path="/admin/order" component={ Order }></Route>
                   <Route path="/admin/user" component={ User }></Route>
+                  <Route path="/admin/bikeMap" component={ bikeMap }></Route>
                   
                   <Route component={ Notpage }></Route>
                 </Switch>

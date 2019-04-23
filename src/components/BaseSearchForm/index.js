@@ -44,7 +44,7 @@ class SearchForm extends Component {
               getFieldDecorator('begin_time', {
                 initialValue: moment()
               })(
-                 <DatePicker showTime={true} format="YYYY-MM-DD HH:mm:ss" />
+                 <DatePicker showTime={true} format="YYYY-MM-DD HH:mm:ss" placeholder={placeholder} />
               )
             }
           </FormItem>
@@ -53,7 +53,7 @@ class SearchForm extends Component {
               getFieldDecorator('end_time', {
                 initialValue: moment().add('day', 7)
               })(
-                 <DatePicker showTime={true} format="YYYY-MM-DD HH:mm:ss" />
+                 <DatePicker showTime={true} format="YYYY-MM-DD HH:mm:ss" placeholder={placeholder} />
               )
             }
           </FormItem>

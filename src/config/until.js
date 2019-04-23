@@ -8,7 +8,8 @@ var Until = {
     return time.getFullYear() + '-' + (time.getMonth() + 1).toString().padStart(2, '0') + '-' + time.getDate().toString().padStart(2, '0') + ' ' + time.getHours().toString().padStart(2, '0') + ':' + time.getMinutes().toString().padStart(2, '0') + ':' + time.getSeconds().toString().padStart(2, '0')
   },
   getOption(data){
-    if(!data){
+   
+    if(data.length<=0){
       return []
     }
     let option = [] //[<Option value="1" key="1">全部</Option>]

@@ -10,7 +10,6 @@ const TextArea = Input.TextArea
 const Option = Select.Option
 class City extends Component {
   state = {
-    type: '',
     showOpenLayer: false
   }
   formList = [
@@ -66,33 +65,6 @@ class City extends Component {
       }
     })
   }
-  //订单详情 
-  orderDetail=()=>{
-    let id = this.state.selectedRowKeys
-    if(!id){
-      Modal.error({
-        title: '提示',
-        okText: '确定',
-        content: '请选择一条数据'
-      })
-      return
-    }
-    window.location.href = `/#/common/order/detail/${id}`
-  }
-  //结束订单
-  overOrder=()=>{
-
-  }
-  //开通城市提交
-  sumbitOpenCoutry=()=>{
-    console.log('提交');
-    let sumbitVal = this.cityForm.props.form.getFieldsValue()
-    console.log('发请求调接口',sumbitVal)
-    this.setState({
-      showOpenLayer: false
-    })
-  }
- 
   onRowClickData = (selectedRows, id) => {
     let selectedKey = [id]
     this.setState({
@@ -116,15 +88,15 @@ class City extends Component {
   memberDetail=(type)=>{
     let id = this.state.selectedRowKeys
     let item = this.state.selectItem
- 
     console.log(id,item)
+   
     if(type === 'create'){
       this.setState({
         type: type,
         title:'创建员工',
         showOpenLayer: true
       })
-    }else if(type === "edit"){
+    }else if(type === "edit" || type === 'detail'){
       if(!id){
         Modal.info({
           title: '提示',
@@ -134,24 +106,58 @@ class City extends Component {
       }
       this.setState({
         type: type,
-        title: '编辑员工',
+        title: type === 'edit' ? '编辑员工' : '查看详情',
         showOpenLayer: true,
         userInfor: item
       })
+    }else{
+      if(!id){
+        Modal.info({
+          title: '提示',
+          content: '请选择一条记录'
+        })
+        return 
+      }
+      Modal.confirm({
+        title: '提示',
+        content: '你是否要真的删除此条信息',
+        okText: '确认',
+        onOk:()=>{
+          axios.ajax({
+            url: '/user/table/list',
+            params: {
+              id: item.key
+            }
+          }).then((res) => {
+            console.log(res);
+            if (res.code === 0) {
+              this.setState({
+                showOpenLayer: false
+              })
+              this.getPostData()
+            }
+          })
+        },
+        cancelText: '取消',
+      });
     }
     console.log('type ',this.state.type)
   }
-  submitDialog=(data)=>{
-    let type = this.state.type
+  submitDialog=()=>{
     let value = this.cityForm.props.form.getFieldsValue()
+    let _this = this
     axios.ajax({
       url: '/user/table/list',
       params: {
-        data: value
+        data: {
+          ...value
+        }
       }
     }).then((res)=>{
       if(res.code === 0){
-        this.cityForm.props.form.resetFields()
+        //this.cityForm.props.form.resetFields()
+        _this.state.userInfor = {}
+        _this.state.selectItem = []
         this.setState({
           showOpenLayer: false
         })
@@ -207,6 +213,12 @@ class City extends Component {
         }, 500);
       })
     }
+    let footer = {}
+    if (this.state.type === 'detail') {
+      footer = {
+        footer: null
+      }
+    }
     return (
       <div>
         <Card className="cardWarp">
@@ -240,14 +252,16 @@ class City extends Component {
             okText="确定"
             cancelText="取消"
             onCancel={()=>{
-              this.cityForm.props.form.resetFields()
-              this.setState({
-                showOpenLayer: false
+             // this.cityForm.props.form.resetFields()
+             this.setState({
+                showOpenLayer: false,
+                userInfor: {}
               })
             }}
             visible={this.state.showOpenLayer}
-          >
-            <OpenCityForm type={this.state.type} userInfor={this.state.userInfor} wrappedComponentRef={(value)=>{this.cityForm = value} } />
+            {...footer}
+          > 
+            <OpenCityForm type={this.state.type} userInfor={this.state.userInfor} wrappedComponentRef={(value)=>this.cityForm = value } />
           </Modal>
       </div>
     );
@@ -259,6 +273,16 @@ export default Form.create()(City)
 
 
 class OpenCityForm extends Component {
+  getState = (status) => {
+    return {
+      '1': '才子一枚',
+      '2': '风度翩翩',
+      '3': '神采飞扬',
+      '4': '神清气爽，神采奕奕',
+      '5': '气宇轩昂，满面红光',
+      '6': '扬眉吐气，心旷神怡'
+    }[status]
+  }
   render(){
     const formItemLayout = {
       labelCol: {
@@ -271,10 +295,12 @@ class OpenCityForm extends Component {
     let type = this.props.type
     let userInfor = this.props.userInfor || {}
     const { getFieldDecorator } = this.props.form
+    
     return (
       <Form>
         <FormItem label="用户名" {...formItemLayout}>
           {
+            userInfor && type === 'detail'?userInfor.user_name :
             getFieldDecorator('user_name',{
               initialValue: userInfor.user_name
             })(
@@ -284,6 +310,7 @@ class OpenCityForm extends Component {
         </FormItem>
         <FormItem label="性别" {...formItemLayout}>
           {
+            userInfor && type === 'detail'?userInfor.sex===1?'男':'女' :
             getFieldDecorator('sex', {
                 initialValue: userInfor.sex
               })(
@@ -296,21 +323,24 @@ class OpenCityForm extends Component {
         </FormItem>
         <FormItem label="状态" {...formItemLayout}>
           {
-            getFieldDecorator('state', {
-              initialValue: userInfor.state
+            userInfor && type === 'detail' ? this.getState(userInfor.status) :
+            getFieldDecorator('status', {
+              initialValue: userInfor.status
             })(
               <Select>
-                <Option value={1}>咸鱼一条</Option>
-                <Option value={2}>风华浪子</Option>
-                <Option value={3}>北大才子一枚</Option>
-                <Option value={4}>百度FE</Option>
-                <Option value={5}>创业者</Option>
+                <Option value={1}>才子一枚</Option>
+                <Option value={2}>风度翩翩</Option>
+                <Option value={3}>神采飞扬</Option>
+                <Option value={4}>神清气爽，神采奕奕</Option>
+                <Option value={5}>气宇轩昂，满面红光</Option>
+                <Option value={5}>扬眉吐气，心旷神怡</Option>
               </Select>
             )
           }
         </FormItem>
         <FormItem label="生日" {...formItemLayout}>
           {
+            userInfor && type === 'detail' ?userInfor.birthday:
             getFieldDecorator('birthday', {
                 initialValue: Moment(userInfor.birthday)
               })(
@@ -320,6 +350,7 @@ class OpenCityForm extends Component {
         </FormItem>
         <FormItem label="联系地址" {...formItemLayout}>
           {
+            userInfor && type === 'detail' ? userInfor.address :
             getFieldDecorator('address', {
                 initialValue: userInfor.address
               })(
