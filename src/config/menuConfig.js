@@ -109,7 +109,7 @@ const menuList = [
         icon: 'file-word'
     },
     {
-        title: '图标',
+        title: '图表',
         key: '/admin/charts',
         icon: 'contacts',
         children: [

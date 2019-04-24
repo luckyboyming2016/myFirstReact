@@ -22,6 +22,9 @@ import Common from './Common'
 import OrderDetail from './pages/order/detail'
 import User from './pages/user'
 import bikeMap from './pages/bikeMap'
+import Bar from './pages/charts/bar'
+import Pie from './pages/charts/pie'
+import Line from './pages/charts/line'
 
 import Notpage from './pages/nofound'
 
@@ -52,6 +55,9 @@ class IRouter extends Component {
                   <Route path="/admin/order" component={ Order }></Route>
                   <Route path="/admin/user" component={ User }></Route>
                   <Route path="/admin/bikeMap" component={ bikeMap }></Route>
+                  <Route path="/admin/charts/bar" component={ Bar }></Route>
+                  <Route path="/admin/charts/pie" component={ Pie }></Route>
+                  <Route path="/admin/charts/line" component={ Line }></Route>
                   
                   <Route component={ Notpage }></Route>
                 </Switch>
