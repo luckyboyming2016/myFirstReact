@@ -25,6 +25,7 @@ import bikeMap from './pages/bikeMap'
 import Bar from './pages/charts/bar'
 import Pie from './pages/charts/pie'
 import Line from './pages/charts/line'
+import Rich from './pages/rich'
 
 import Notpage from './pages/nofound'
 
@@ -58,6 +59,7 @@ class IRouter extends Component {
                   <Route path="/admin/charts/bar" component={ Bar }></Route>
                   <Route path="/admin/charts/pie" component={ Pie }></Route>
                   <Route path="/admin/charts/line" component={ Line }></Route>
+                  <Route path="/admin/rich" component={ Rich }></Route>
                   
                   <Route component={ Notpage }></Route>
                 </Switch>
