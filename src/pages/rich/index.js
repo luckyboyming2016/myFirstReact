@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import { Editor } from 'react-draft-wysiwyg'
-import { EditorState, convertToRaw, ContentState, convertHTML, convertFromRaw } from 'draft-js';
+import { EditorState, convertToRaw, ContentState, } from 'draft-js';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 import draftToHtml from 'draftjs-to-html'
 import htmlToDraft from 'html-to-draftjs'
@@ -72,7 +72,7 @@ class Rich extends Component {
     console.log(news)
   }
   render(){
-    const { editorState, getContentState } = this.state
+    const { editorState } = this.state
     return (
       <div>
         <Card title="富文本编辑器">

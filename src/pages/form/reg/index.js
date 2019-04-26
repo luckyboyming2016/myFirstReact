@@ -1,6 +1,7 @@
 import React,{Component} from 'react'
 import moment from 'moment'
-import {Card, Form, Input,InputNumber, Button, Checkbox,Radio,DatePicker,TimePicker, Switch,Select,Upload,Icon,message } from 'antd'
+import zhCN from 'antd/lib/locale-provider/zh_CN';
+import {LocaleProvider, Card, Form, Input,InputNumber, Button, Checkbox,Radio,DatePicker,TimePicker, Switch,Select,Upload,Icon,message } from 'antd'
 import './index.less'
 
 var FormItem= Form.Item
@@ -41,7 +42,7 @@ class FormReg extends Component {
   }
   onChangeTime=(time)=>{
     this.setState({
-      time: moment(this.state.time).format('YYYY-MM-DD HH:mm:ss')
+      time: moment(time).format('YYYY-MM-DD HH:mm:ss')
     })
   }
   resetSubmit=()=>{
@@ -165,10 +166,10 @@ class FormReg extends Component {
             </FormItem>
             <FormItem label="生日" {...formItemLayout}>
               {
-                getFieldDecorator('birthday', {
-                  initialValue: moment('2019-04-12 23:43:12') 
-                })(
-                  <DatePicker showTime format="YYYY-MM-DD HH:mm:ss" />
+                getFieldDecorator('birthday')(
+                  <LocaleProvider locale={zhCN}>
+                    <DatePicker showTime format="YYYY-MM-DD HH:mm:ss" />
+                  </LocaleProvider>
                 )
               }
             </FormItem>
@@ -184,7 +185,7 @@ class FormReg extends Component {
             <FormItem label="早起时间" {...formItemLayout}>
               {
                 getFieldDecorator('time',{
-                  initialValue: moment('12:08:23', 'HH:mm:ss')
+                  initialValue: moment()
                 })(
                   <TimePicker onChange={this.onChangeTime}/>
                 )
