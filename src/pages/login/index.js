@@ -7,7 +7,7 @@ class Login extends Component {
     return (
       <div className="loginWrap pa">
         <div className="vertical">这是登陆2页面<br></br>
-        <Link to="/admin/home">跳主页</Link></div> 
+        <Link to="/home">跳主页</Link></div> 
       </div>
     );
   }
