@@ -5,7 +5,7 @@ import './index.less'
 import Menujson from '../../config/menuConfig'
 // import SubMenu from '_antd@3.15.2@antd/lib/menu/SubMenu';
 import { connect } from 'react-redux'
-// import { switchMenu } from './../../redux/action'
+import { switchMenu } from './../../redux/action'
 
 const SubMenu = Menu.SubMenu
 class NavLeft extends Component {
@@ -20,11 +20,12 @@ class NavLeft extends Component {
       currentKey
     })
   }
-  handleClick=(e)=>{
+  handleClick=({item, key})=>{
     let { dispatch } = this.props
-    console.log('dispatch', dispatch)
+    console.log('item', item, 'dispatch', dispatch)
+   // dispatch(switchMenu(item.item.props.title))
     this.setState({
-      currentKey: e.key
+      currentKey: key
     })
   }
   rendMenu=(data)=>{
@@ -81,5 +82,5 @@ class NavLeft extends Component {
     )
   }
 }
-//export default connect()(NavLeft)
+// export default connect()(NavLeft)
 export default NavLeft
