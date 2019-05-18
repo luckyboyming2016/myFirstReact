@@ -4,27 +4,12 @@ import { NavLink } from 'react-router-dom'
 import './index.less'
 import Menujson from '../../config/menuConfig'
 // import SubMenu from '_antd@3.15.2@antd/lib/menu/SubMenu';
-import { connect } from 'react-redux'
-// import { switchMenu } from './../../redux/action'
-
-const SubMenu = Menu.SubMenu
+const SubMenu = Menu.SubMenu;
 class NavLeft extends Component {
-  state = {
-    currentKey: ''
-  }
   componentWillMount(){
     let menuName = this.rendMenu(Menujson)
-    let currentKey = window.location.hash.replace(/#|\?.*$/, '')
     this.setState({
-      menuName,
-      currentKey
-    })
-  }
-  handleClick=(e)=>{
-    let { dispatch } = this.props
-    console.log('dispatch', dispatch)
-    this.setState({
-      currentKey: e.key
+      menuName
     })
   }
   rendMenu=(data)=>{
@@ -51,7 +36,7 @@ class NavLeft extends Component {
         <div className="logo">
           <img alt="logo" className="response_img" src="/assets/logo.png" />
         </div>
-        <Menu theme='dark' onClick={this.handleClick} defaultSelectedKeys={[this.state.currentKey]} style={{textAlign:'left'}}>
+        <Menu theme='dark'  defaultSelectedKeys={['/admin/home']} style={{textAlign:'left'}}>
           { this.state.menuName }
         </Menu>
         {/* <Menu 
@@ -81,5 +66,6 @@ class NavLeft extends Component {
     )
   }
 }
-//export default connect()(NavLeft)
+
+
 export default NavLeft

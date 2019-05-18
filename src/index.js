@@ -7,6 +7,12 @@ import * as serviceWorker from './serviceWorker';
 // import Router2 from './pages/route_demo/route3/route'
 // import Admin from './Admin'
 import Router from './router'
+import { Provider } from 'react-redux'
+import storeConfig from './redux/store'
+const store = storeConfig()
 
-ReactDOM.render(<Router />, document.getElementById('root'));
+ReactDOM.render(
+  <Provider store={store}>
+    <Router />
+  </Provider>, document.getElementById('root'));
 serviceWorker.unregister();
