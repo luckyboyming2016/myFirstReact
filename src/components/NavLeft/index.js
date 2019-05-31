@@ -4,8 +4,8 @@ import { NavLink } from 'react-router-dom'
 import './index.less'
 import Menujson from '../../config/menuConfig'
 // import SubMenu from '_antd@3.15.2@antd/lib/menu/SubMenu';
-import { connect } from 'react-redux'
-import { switchMenu } from './../../redux/action'
+// import { connect } from 'react-redux'
+// import { switchMenu } from './../../redux/action'
 
 const SubMenu = Menu.SubMenu
 class NavLeft extends Component {
